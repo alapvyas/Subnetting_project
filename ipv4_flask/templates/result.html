@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IPv4 Subnetting Quiz Results</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { width: 60%; margin: auto; padding: 20px; }
+        .results { margin-top: 20px; }
+        .button { margin-top: 20px; }
+        .question-detail { margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Quiz Results</h1>
+
+        <div class="results">
+            <p>You answered {{ correct_answers }} out of {{ total_questions }} questions correctly.</p>
+            <p>Average time per question: {{ average_time|round(2) }} seconds</p>
+            <h2>Question Details:</h2>
+            {% for detail in question_details %}
+                <div class="question-detail">
+                    <p>Question: {{ detail['Question Address'] }}</p>
+                    <p>Correct Answers:</p>
+                    <ul>
+                        <li>Network Address: {{ detail['Correct Answers']['Network Address'] }}</li>
+                        <li>Broadcast Address: {{ detail['Correct Answers']['Broadcast Address'] }}</li>
+                        <li>First Usable Host: {{ detail['Correct Answers']['First Usable Host'] }}</li>
+                        <li>Last Usable Host: {{ detail['Correct Answers']['Last Usable Host'] }}</li>
+                    </ul>
+                    <p>Your Answers:</p>
+                    <ul>
+                        <li>Network Address: {{ detail['User Answers']['Network Address'] }}</li>
+                        <li>Broadcast Address: {{ detail['User Answers']['Broadcast Address'] }}</li>
+                        <li>First Usable Host: {{ detail['User Answers']['First Usable Host'] }}</li>
+                        <li>Last Usable Host: {{ detail['User Answers']['Last Usable Host'] }}</li>
+                    </ul>
+                    <p>Time Taken: {{ detail['Time Taken (seconds)'] }} seconds</p>
+                </div>
+            {% endfor %}
+            <div class="button">
+                <button onclick="window.location.href='/'">Restart Quiz</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

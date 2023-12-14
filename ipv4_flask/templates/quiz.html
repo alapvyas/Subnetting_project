@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IPv4 Subnetting Quiz</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { width: 60%; margin: auto; padding: 20px; }
+        .question { margin-bottom: 20px; }
+        .answer { margin-bottom: 10px; }
+        .button { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>IPv4 Subnetting Quiz</h1>
+
+        <!-- Question Form -->
+        {% if not finished %}
+            <div class="question">
+                <p>Question {{ current_question_number }}: What is the network address of {{ current_question_address }}?</p>
+                <form method="post">
+                    <div class="answer">
+                        <label for="network_address">Network Address:</label>
+                        <input type="text" id="network_address" name="network_address" required>
+                    </div>
+                    <div class="answer">
+                        <label for="broadcast_address">Broadcast Address:</label>
+                        <input type="text" id="broadcast_address" name="broadcast_address" required>
+                    </div>
+                    <div class="answer">
+                        <label for="first_usable_host">First Usable Host:</label>
+                        <input type="text" id="first_usable_host" name="first_usable_host" required>
+                    </div>
+                    <div class="answer">
+                        <label for="last_usable_host">Last Usable Host:</label>
+                        <input type="text" id="last_usable_host" name="last_usable_host" required>
+                    </div>
+                    <div class="button">
+                        <button type="submit">Submit Answer</button>
+                    </div>
+                </form>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
