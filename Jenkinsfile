@@ -7,18 +7,10 @@ pipeline {
     }
 
     stages {
-        stage('Initialize') {
-            steps {
-                echo 'Initializing...'
-                sh 'echo "Starting Jenkins Pipeline"'
-            }
-        }
-
         stage('Build') {
             steps {
-                echo 'Building...'
-
                 echo 'Building the application...'
+
                 sh 'docker build -t my-flask-app:latest .'
 
                 echo 'Cleaning up...'
