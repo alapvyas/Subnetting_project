@@ -39,7 +39,7 @@ pipeline {
 
         stage('Run') {
             steps {
-                sh 'docker run -itd -t my-flask-app:latest -p 5000:5000 '
+                sh 'docker run -itd -p 5000:5000 my-flask-app:latest'
             }
         }
     }
