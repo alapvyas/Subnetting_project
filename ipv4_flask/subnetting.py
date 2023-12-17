@@ -1,14 +1,10 @@
-#from flask import Flask, render_template
-
-#app = Flask(__name__)
 from flask import Flask, render_template, request, redirect, session
 import ipaddress
 import random
 import time
 
-
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Set a secret key for session management
+app.secret_key = 'your_secret_key'  # Replace with a real secret key for production
 
 def generate_random_ipv4_address(subnet):
     return ipaddress.IPv4Address(random.randint(int(subnet.network_address), int(subnet.broadcast_address)))
@@ -32,16 +28,30 @@ def generate_subnetting_question():
             return question_address, subnet
         except ValueError:
             continue
+
+@app.route('/settings', methods=['GET', 'POST'])
+def quiz_settings():
+    if request.method == 'POST':
+        try:
+            total_questions = int(request.form['total_questions'])
+        except ValueError:
+            total_questions = 5
+
+        session['question_details'] = []
+        session['correct_answers'] = 0
+        session['total_questions'] = total_questions
+        session['current_question_number'] = 0
+
+        return redirect('/')
+
+    return render_template('settings.html')
+
 @app.route('/', methods=['GET', 'POST'])
 def ipv4_quiz():
     if 'question_details' not in session:
-        session['question_details'] = []
-        session['correct_answers'] = 0
-        session['total_questions'] = 5
-        session['current_question_number'] = 0
+        return redirect('/settings')
 
     if request.method == 'POST':
-        # Process user's answers
         user_answer_network = request.form['network_address']
         user_answer_broadcast = request.form['broadcast_address']
         user_answer_first_host = request.form['first_usable_host']
@@ -57,7 +67,6 @@ def ipv4_quiz():
         end_time = time.time()
         question_time = end_time - session['start_time']
 
-        # Storing question details
         question_detail = {
             "Question Address": session['current_question_address'],
             "Subnet": session['current_subnet'],
@@ -78,21 +87,22 @@ def ipv4_quiz():
         }
         session['question_details'].append(question_detail)
 
-        # Check if quiz is finished
         if session['current_question_number'] >= session['total_questions']:
             return redirect('/result')
 
-    # Generate next question
+    if session['current_question_number'] >= session['total_questions']:
+        return redirect('/result')
+
     session['current_question_number'] += 1
     question_address, subnet = generate_subnetting_question()
     session['current_question_address'] = f"{str(question_address)}/{subnet.prefixlen}"
     session['current_subnet'] = str(subnet)
     session['start_time'] = time.time()
 
-    return render_template('quiz.html',
+    return render_template('quiz.html', 
                            current_question_number=session['current_question_number'],
+                           total_questions=session['total_questions'],
                            current_question_address=session['current_question_address'])
-
 
 @app.route('/result')
 def quiz_result():
@@ -102,7 +112,6 @@ def quiz_result():
     total_time = sum(detail['Time Taken (seconds)'] for detail in question_details)
     average_time = total_time / total_questions if total_questions > 0 else 0
 
-    # Clear the session for a new quiz
     session.clear()
 
     return render_template('result.html',
@@ -110,12 +119,6 @@ def quiz_result():
                            total_questions=total_questions,
                            question_details=question_details,
                            average_time=average_time)
-
-
-#@app.route("/")
-#@app.route("/home")
-#def home():
-    #return render_template('home.html', questions=questions)
 
 if __name__ == '__main__':
     app.run(debug=True)
