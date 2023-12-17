@@ -16,5 +16,11 @@ EXPOSE 5000
 # Define environment variable
 ENV FLASK_ENV=production
 
-# Run app.py when the container launches
-CMD ["python3", "subnetting.py"]
+# Copy the entrypoint script into the container
+COPY entrypoint.sh /usr/src/app/entrypoint.sh
+
+# Make the script executable
+RUN chmod +x /usr/src/app/entrypoint.sh
+
+# Set the script as the entrypoint
+ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
