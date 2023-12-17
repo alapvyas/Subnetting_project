@@ -17,4 +17,4 @@ EXPOSE 5000
 ENV FLASK_ENV=production
 
 # Run app.py when the container launches
-CMD ["python", "subnetting.py"]
+CMD ["python3", "subnetting.py"]
