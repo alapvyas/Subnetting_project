@@ -22,7 +22,6 @@ pipeline {
                 sh 'docker build -t my-flask-app:latest .'
 
                 echo 'Cleaning up...'
-                sh 'deactivate'
             }
         }
 
