@@ -1,9 +1,60 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        width: 80%;
+        margin: auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .navbar {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 0;
+        text-align: center;
+    }
+    .navbar a {
+        color: white;
+        padding: 14px 20px;
+        text-decoration: none;
+        display: inline-block;
+    }
+    .navbar a:hover {
+        background-color: #0056b3;
+    }
+    h1 {
+        color: #333;
+    }
+    button {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+</style>
+
     <title>IPv4 Quiz Settings</title>
 </head>
 <body>
+<div class="navbar">
+    <a href="/settings">Home</a>
+    <a href="/about">About</a>
+</div>
+
     <h1>Welcome to the IPv4 Subnetting Quiz</h1>
     <form method="post" action="/settings">
         <label for="total_questions">How many questions would you like to answer?</label>

@@ -29,7 +29,7 @@ def generate_subnetting_question():
         except ValueError:
             continue
 
-@app.route('/settings', methods=['GET', 'POST'])
+@app.route('/settings', '/home', methods=['GET', 'POST'])
 def quiz_settings():
     if request.method == 'POST':
         try:
@@ -119,6 +119,10 @@ def quiz_result():
                            total_questions=total_questions,
                            question_details=question_details,
                            average_time=average_time)
+
+@app.route('/about')
+def about():
+    return 'about.html'
 
 if __name__ == '__main__':
     app.run(debug=True)
