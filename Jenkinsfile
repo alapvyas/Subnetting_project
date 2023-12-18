@@ -24,21 +24,19 @@ pipeline {
             }
         }
 
-        stage('Push to Docker Hub')
         stage('Push to Docker Hub') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerHubCredentials', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
-                    // Generate a unique tag for the image, e.g., using the build number
-                    def uniqueTag = "build-${env.BUILD_NUMBER}"
-                    echo 'Pushing Docker image to Docker Hub with tag: ' + uniqueTag
+                    echo 'Pushing Docker image to Docker Hub...'
                     sh 'docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_PASSWORD}'
-                    sh "docker tag ${DOCKER_IMAGE} ${DOCKERHUB_USERNAME}/${DOCKER_IMAGE}:${uniqueTag}"
-                    sh "docker push ${DOCKERHUB_USERNAME}/${DOCKER_IMAGE}:${uniqueTag}"
+                    sh 'docker tag ${DOCKER_IMAGE} ${DOCKERHUB_USERNAME}/${DOCKER_IMAGE}'
+                    sh 'docker push ${DOCKERHUB_USERNAME}/${DOCKER_IMAGE}'
                     sh 'docker logout'
                 }
             }
         }
-stage('Run Docker Image') {
+
+        stage('Run Docker Image') {
             steps {
                 echo 'Running Docker image...'
                 sh "docker run -d -p 5000:5000 ${DOCKER_IMAGE}"
