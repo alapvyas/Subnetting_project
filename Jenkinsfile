@@ -36,13 +36,6 @@ pipeline {
             }
         }
 
-        stage('Run Docker Image') {
-            steps {
-                echo 'Running Docker image...'
-                sh "docker run -d -p 5000:5000 ${DOCKER_IMAGE}"
-            }
-        }
-
         stage('Deploy to Fly.io') {
             steps {
                 script {
