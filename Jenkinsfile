@@ -43,7 +43,7 @@ pipeline {
                     def appName = "app-${UUID.randomUUID().toString().take(8)}"
                     echo "Deploying to Fly.io with app name: ${appName}"
                     // Deploy using the fly CLI
-                    sh "fly launch --name ${appName} --image ${DOCKERHUB_USERNAME}/${DOCKER_IMAGE} -y"
+                    sh "docker run -d -p 5000:5000 ${DOCKER_IMAGE}"
                 }
             }
         }
